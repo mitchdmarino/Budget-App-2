@@ -1,17 +1,24 @@
 {
   "compilerOptions": {
-    "module": "nodenext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+
     "target": "ES2020",
     "lib": ["ESNext"],
-    "types": ["node"],
     "rootDir": "./src",
     "outDir": "./dist",
-    "strict": true,
-    "verbatimModuleSyntax": true,
+
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "verbatimModuleSyntax": true,
+
+    "strict": true,
+    "skipLibCheck": true,
+
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "skipLibCheck": true
-  }
+    "types": ["node"]
+  },
+  "include": ["src"]
 }
