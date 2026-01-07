@@ -1,0 +1,5 @@
+{
+  "migrationsDir": "dist/migrations",
+  "migrationsTable": "pgmigrations",
+  "migrationFileLanguage": "ts"
+}
