@@ -2,9 +2,11 @@ import type { Request, Response } from "express";
 import { createUser as createUserRepo } from "../repositories/users.repo.js"; 
 
 export async function createUser (req: Request, res: Response) {
-    const { email, name } = req.body; 
-
-    if (!email || name) {
+    console.log(req.body); 
+    const { name, email } = req.body; 
+    //console.log(name); 
+    //console.log(email); 
+    if (!email || !name) {
         return res.status(400).json({ error: "email and name are required "}); 
     }
 

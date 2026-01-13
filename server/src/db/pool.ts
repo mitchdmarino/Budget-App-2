@@ -6,5 +6,5 @@ export const pool = new Pool({
 });
 
 pool.on("connect", () => {
-  console.log("✅ Connected to PostgreSQL");
+  console.log("✅ Connected to PostgreSQL at " + process.env.DATABASE_URL);
 });
