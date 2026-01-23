@@ -38,7 +38,15 @@ Database: Postgresql
 ### Transactions Schema
 ```
 {
-    
+    id: uuid (primary key) 
+    user_id: uuid (foreign key) 
+    account_id: uuid (foreign key) 
+    category_id: uuid (foreign key) 
+    description: varchar(255)
+    amount_cents: integer (signed)
+    posted_at: timestamptz 
+    created_at: timestamptz
+    updated_at: timestamptz 
 }
 ```
 
@@ -57,6 +65,10 @@ Database: Postgresql
 | Method | Path | Description | Body | Notes |
 | ------ | ---------- | ----------- | --- | --- | 
 | POST | /register | Registers a new user and returns a JWT token | name, email| | 
+| POST | /login | Verify password, issue tokens | | | 
+| POST | /refresh | issue new access token | | |
+| POST | /logout | revoke refresh token | | |
+| GET | /me | return user from access token | | |
 
 ### /accounts 
 | Method | Path       | Description | Body | Notes |
@@ -72,10 +84,13 @@ Database: Postgresql
 | ------ | ---------- | ----------- | --- | --- | 
 
 ## Important Commands 
+> npm run dev // for testing 
 
 To create migration files with pg-migrate :  
 > npx node-pg-migrate create [migration name] --migration-file-language ts
+
 To migrate: 
 > npm run build 
+
 > npm run migrate:up
 
