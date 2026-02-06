@@ -1,5 +1,5 @@
 import type { Request, Response } from "express"; 
-import { createUser as createUserRepo } from "../repositories/users.repo.js"; 
+import { createUser as createUserRepo, getUserById as getUserByIdRepo } from "../repositories/users.repo.js"; 
 
 export async function createUser (req: Request, res: Response) {
     console.log(req.body); 
@@ -23,8 +23,10 @@ export async function createUser (req: Request, res: Response) {
     }
 }
 
-export async function getUser (req: Request, res: Response) {
+export async function getUserById(req: Request, res: Response) {
     try {
+        const id = ""; 
+        const user = await getUserByIdRepo(id); 
         return res.status(201).json({msg: "Not implemented yet"})
     } catch (err: any) {
         
