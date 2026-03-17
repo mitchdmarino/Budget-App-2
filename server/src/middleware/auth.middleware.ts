@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { verifySessionAndReturnUser } from '../services/auth.services.js';
+import { setSessionCookie, verifySessionAndReturnUser } from '../services/auth.services.js';
 
 export async function requireAuth(req: Request, res: Response, next: NextFunction) {
     try {
@@ -14,12 +14,7 @@ export async function requireAuth(req: Request, res: Response, next: NextFunctio
                 // attach req.user if session found and valid 
                 req.user = { id: userId };
                 if (sessionExtended) {
-                    res.cookie("session_id", session_id, {
-                        httpOnly: true,
-                        secure: process.env.NODE_ENV === "production",
-                        sameSite: "lax",
-                        maxAge: 14 * 24 * 60 * 60 * 1000 // 2 weeks 
-                    });
+                    setSessionCookie(session_id, res); 
                 }
                 next();
                 return;
@@ -33,3 +28,4 @@ export async function requireAuth(req: Request, res: Response, next: NextFunctio
         return res.status(500).json({ msg: "Internal Server Error" })
     }
 }
+
