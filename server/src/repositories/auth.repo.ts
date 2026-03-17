@@ -1,9 +1,6 @@
 import { pool } from "../db/pool.js"; 
 
-export async function registerUser(email: string, password: string) {
-
-}
-export async function loginUser(email: string, password: string) {
+export async function createSession(user_id: string) {
 
 }
 
@@ -19,10 +16,22 @@ export async function findSessionById(session_id: string) {
     return result.rows[0] ?? null; 
 }
 
-export async function updateSessionById(session_id: string, dateExpires: Date) {
+export async function extendSessionById(session_id: string) {
+    const result = await pool.query(
+        `
+        UPDATE sessions
+        SET expires_at = NOW() + interval '14 days'
+        WHERE id = $1
+        `, 
+        [session_id]
+    ); 
+    return null; 
+}
+
+export async function revokeSession(session_id: string) {
 
 }
 
-export async function logoutUser(user_id: string) {
+export async function revokeAllSessionsForUser(user_id: string) {
 
 }
