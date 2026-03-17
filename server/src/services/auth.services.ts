@@ -29,6 +29,10 @@ export async function verifySessionAndReturnUser(session_id: string) {
     }
 }
 
+export async function createSession(user_id: string) {
+    
+}
+
 // helper functions 
 
 async function extendSession(session_id: string) {
