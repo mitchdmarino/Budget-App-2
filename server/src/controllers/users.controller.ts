@@ -1,9 +1,9 @@
 import type { Request, Response } from "express"; 
-import { createUser as createUserRepo, getUserById as getUserByIdRepo } from "../repositories/users.repo.js"; 
+import { insertUser as createUserRepo, getUserById as getUserByIdRepo, getUserByEmail as getUserByEmailRepo } from "../repositories/users.repo.js"; 
 
 export async function createUser (req: Request, res: Response) {
     console.log(req.body); 
-    const { name, email } = req.body; 
+    const { name, password, email } = req.body; 
     //console.log(name); 
     //console.log(email); 
     if (!email || !name) {
@@ -11,7 +11,7 @@ export async function createUser (req: Request, res: Response) {
     }
 
     try {
-        const user = await createUserRepo(email, name); 
+        const user = await createUserRepo(email, password, name); 
         return res.status(201).json(user); 
     } catch(err: any) {
         if (err.code === "23505") {
@@ -27,6 +27,16 @@ export async function getUserById(req: Request, res: Response) {
     try {
         const id = ""; 
         const user = await getUserByIdRepo(id); 
+        return res.status(201).json({msg: "Not implemented yet"})
+    } catch (err: any) {
+        
+    }
+}
+
+export async function getUserByEmail(req: Request, res: Response) {
+    try {
+        const email = ""; 
+        const user = await getUserByEmailRepo(email); 
         return res.status(201).json({msg: "Not implemented yet"})
     } catch (err: any) {
         

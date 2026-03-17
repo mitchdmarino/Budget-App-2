@@ -1,10 +1,10 @@
 import { pool } from "../db/pool.js"; 
 
-export async function createSession(user_id: string) {
+export async function insertSession(user_id: string) {
      const result = await pool.query(
         `
-        INSERT INTO users (user_id)
-        VALUES ($1)
+        INSERT INTO sessions (user_id, expires_at)
+        VALUES ($1, NOW() + interval '14 days')
         RETURNING id, user_id, created_at, expires_at, revoked_at
         `, 
         [user_id]
@@ -59,3 +59,4 @@ export async function revokeAllSessionsForUser(user_id: string) {
     ); 
     return null; 
 }
+

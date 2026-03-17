@@ -1,7 +1,7 @@
 import type { Session } from "../types/session.js";
-import type { Request, Response, NextFunction } from 'express';
-import { extendSessionById, findSessionById } from "../repositories/auth.repo.js";
+import { extendSessionById, findSessionById, insertSession } from "../repositories/auth.repo.js";
 import { getUserById } from "../repositories/users.repo.js";
+import { findUserByEmail, isValidPassword } from "./user.services.js";
 
 export async function verifySessionAndReturnUser(session_id: string) {
     const sessionObj: Session | null = await findSessionById(session_id);
@@ -30,7 +30,27 @@ export async function verifySessionAndReturnUser(session_id: string) {
 }
 
 export async function createSession(user_id: string) {
-    
+    if (!user_id) {
+        return null; 
+    }
+    var session = await insertSession(user_id); 
+    return session; 
+}
+
+export async function loginUser(email: string, password: string) {
+    const user = await findUserByEmail(email); 
+    if (!user) {
+        console.log("User not found"); 
+        return null; 
+    }
+    const isAuthenticated = isValidPassword(password, user.password_hash); 
+    if (!isAuthenticated) {
+        console.log("UNAUTHORIZED 🥴"); 
+        return null; 
+    } else {
+        const newSession: Session = await createSession(user.id); 
+        return newSession; 
+    }
 }
 
 // helper functions 
@@ -41,13 +61,4 @@ async function extendSession(session_id: string) {
 
 function add24Hours(date: Date) {
     return new Date(date.getTime() + 24 * 60 * 60 * 1000);
-}
-
-export async function setSessionCookie(session_id: string, res: Response) {
-    res.cookie("session_id", session_id, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        maxAge: 14 * 24 * 60 * 60 * 1000 // 2 weeks 
-    });
 }

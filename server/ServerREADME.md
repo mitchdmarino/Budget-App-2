@@ -87,10 +87,13 @@ Database: Postgresql
 > npm run dev // for testing 
 
 To create migration files with pg-migrate :  
-> npx node-pg-migrate create [migration name] --migration-file-language ts
+> npx node-pg-migrate create [migration name] --migration-file-language ts 
+
 
 To migrate: 
 > npm run build 
 
 > npm run migrate:up
 
+
+TODO: Extend sessions. Login and regiser routes, set the cookie. Logout revokes the cookie. 

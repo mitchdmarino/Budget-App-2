@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
-import { setSessionCookie, verifySessionAndReturnUser } from '../services/auth.services.js';
+import { verifySessionAndReturnUser } from '../services/auth.services.js';
+import { setSessionCookie } from '../controllers/auth.controller.js';
 
 export async function requireAuth(req: Request, res: Response, next: NextFunction) {
     try {
