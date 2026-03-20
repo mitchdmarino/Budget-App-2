@@ -1,5 +1,5 @@
 import type { Request, Response } from "express"; 
-import { insertUser as createUserRepo, getUserById as getUserByIdRepo, getUserByEmail as getUserByEmailRepo } from "../repositories/users.repo.js"; 
+import { insertUser as createUserRepo, getUserById } from "../repositories/users.repo.js"; 
 
 export async function createUser (req: Request, res: Response) {
     console.log(req.body); 
@@ -23,38 +23,17 @@ export async function createUser (req: Request, res: Response) {
     }
 }
 
-export async function getUserById(req: Request, res: Response) {
-    try {
-        const id = ""; 
-        const user = await getUserByIdRepo(id); 
-        return res.status(201).json({msg: "Not implemented yet"})
-    } catch (err: any) {
-        
-    }
-}
-
-export async function getUserByEmail(req: Request, res: Response) {
-    try {
-        const email = ""; 
-        const user = await getUserByEmailRepo(email); 
-        return res.status(201).json({msg: "Not implemented yet"})
-    } catch (err: any) {
-        
-    }
-}
-
-export async function updateUser (req: Request, res: Response) {
-    try {
-        return res.status(201).json({msg: "Not implemented yet"})
-    } catch (err: any) {
-        
-    }
-}
-
-export async function deleteUser (req: Request, res: Response) {
-    try {
-        return res.status(201).json({msg: "Not implemented yet"})
-    } catch (err: any) {
+export async function getMe(req: Request, res: Response) {
+    if ((req as any).user) {
+        const user_id = (req as any).user.id; 
+        if (!user_id) {
+            return res.status(500).json({error: "Internal Server Error"}); 
+        }
+        const thisUser = await getUserById(user_id); 
+        if (!thisUser) {
+            return res.status(500).json({error: "Internal Server Error"});
+        }
+        return res.status(200).json({user: thisUser}); 
         
     }
 }

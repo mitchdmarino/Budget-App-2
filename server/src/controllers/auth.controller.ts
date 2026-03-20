@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
-import { createUser, findUserByEmail } from "../services/user.services.js";
+import { createUser } from "../services/user.services.js";
 import { createSession, loginUser, revokeUserSession } from "../services/auth.services.js";
+import { setSessionCookie } from "../utils/utils.js";
 
 var DEBUG = true;
 
@@ -61,15 +62,4 @@ export async function logout(req: Request, res: Response) {
     } catch (err: any) {
         console.log(err);
     }
-}
-
-
-// helper function 
-export async function setSessionCookie(session_id: string, res: Response) {
-    res.cookie("session_id", session_id, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        maxAge: 14 * 24 * 60 * 60 * 1000 // 2 weeks 
-    });
 }

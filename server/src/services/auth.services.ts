@@ -1,7 +1,7 @@
 import type { Session } from "../types/session.js";
 import { extendSessionById, findSessionById, insertSession, revokeSession } from "../repositories/auth.repo.js";
-import { getUserById } from "../repositories/users.repo.js";
-import { findUserByEmail, isValidPassword } from "./user.services.js";
+import { findUserByEmail, findUserByID } from "./user.services.js";
+import { isValidPassword } from "../utils/utils.js";
 
 export async function verifySessionAndReturnUser(session_id: string) {
     const sessionObj: Session | null = await findSessionById(session_id);
@@ -19,7 +19,7 @@ export async function verifySessionAndReturnUser(session_id: string) {
         sessionExtended = true;
         await extendSession(session_id);
     }
-    const user = await getUserById(sessionObj.user_id);
+    const user = await findUserByID(sessionObj.user_id); 
     if (!user) {
         return null;
     }
