@@ -96,4 +96,4 @@ To migrate:
 > npm run migrate:up
 
 
-TODO: Extend sessions. Login and regiser routes, set the cookie. Logout revokes the cookie. 
+TODO: Begin basic crud procedures with auth. Server Error handling

@@ -1,5 +1,5 @@
 import type { Session } from "../types/session.js";
-import { extendSessionById, findSessionById, insertSession } from "../repositories/auth.repo.js";
+import { extendSessionById, findSessionById, insertSession, revokeSession } from "../repositories/auth.repo.js";
 import { getUserById } from "../repositories/users.repo.js";
 import { findUserByEmail, isValidPassword } from "./user.services.js";
 
@@ -50,6 +50,15 @@ export async function loginUser(email: string, password: string) {
     } else {
         const newSession: Session = await createSession(user.id); 
         return newSession; 
+    }
+}
+
+export async function revokeUserSession(session_id: string) {
+    try {
+        await revokeSession(session_id);
+    } catch(e) {
+        console.log("Logout Error in auth.services: " + e); 
+        throw(e); 
     }
 }
 
