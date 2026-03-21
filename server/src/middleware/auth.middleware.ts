@@ -17,8 +17,7 @@ export async function requireAuth(req: Request, res: Response, next: NextFunctio
                 const userId = userSession.user_id;
                 const sessionExtended = userSession.sessionExtended;
                 // attach req.user if session found and valid 
-                (req as any).user = { id: userId };
-                //req.user = { id: userId };
+                req.user = { id: userId };
                 if (sessionExtended) {
                     setSessionCookie(session_id, res); 
                 }

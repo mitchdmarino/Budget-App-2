@@ -24,8 +24,8 @@ export async function createUser (req: Request, res: Response) {
 }
 
 export async function getMe(req: Request, res: Response) {
-    if ((req as any).user) {
-        const user_id = (req as any).user.id; 
+    if (req.user) {
+        const user_id = req.user.id; 
         if (!user_id) {
             return res.status(500).json({error: "Internal Server Error"}); 
         }
